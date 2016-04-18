@@ -1,0 +1,25 @@
+Package: CHRONOS
+Version: 0.99.3
+Date: 2016-03-21
+Title: CHRONOS: A time-varying method for microRNA-mediated sub-pathway
+        enrichment analysis
+Author: Aristidis G. Vrahatis, Konstantina Dimitrakopoulou, Panos
+        Balomenos
+Maintainer: Panos Balomenos <balomenos@upatras.gr>
+Description: A package used for efficient unraveling of the inherent
+        dynamic properties of pathways. MicroRNA-mediated subpathway
+        topologies are extracted and evaluated by exploiting the
+        temporal transition and the fold change activity of the linked
+        genes/microRNAs.
+Depends: R (>= 3.3)
+SystemRequirements: Java version >= 1.7, Pandoc
+License: GPL-2
+Repository: Bioconductor
+Date/Publication:
+NeedsCompilation: no
+LazyLoad: yes
+Imports: XML, RCurl, RBGL, parallel, foreach, doParallel, openxlsx,
+        circlize, graph, stats, utils, grDevices, graphics, biomaRt
+Suggests: RUnit, BiocGenerics, knitr
+VignetteBuilder: knitr
+biocViews: SystemsBiology, GraphAndNetwork, Pathways, KEGG

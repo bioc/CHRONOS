@@ -1,0 +1,18 @@
+citHeader("TO cite CHRONOS software package please cite the following paper:")
+
+citEntry(entry="article",
+	author = c(person(c("Aristidis","G"), "Vrahatis"),
+	           person("Konstantina", "Dimitrakopoulou"),
+	           person("Panos", "Balomenos"),
+	           person("Athanasios", "Tsakalidis"),
+	           person("Anastasios", "Bezerianos")),
+	title = "{CHRONOS}: A time-varying method for microRNA-mediated sub-pathway enrichment analysis",
+	journal = "Bioinformatics",
+	year = 2016,
+	volume = 32,
+	number = 6,
+	pages = "884-892",
+
+	textVersion = 
+	"Vrahatis, A. G., Dimitrakopoulou, K., Balomenos, P., Tsakalidis, A. K., & Bezerianos, A. (2015). CHRONOS: A time-varying method for microRNA-mediated sub-pathway enrichment analysis. Bioinformatics (2016) 32 (6) : 884-892"
+)
