@@ -7,20 +7,20 @@
 scoreSubpathways   <- function(subpathways, filters, measures, parameters,
                                 miRNAinteractions)
 {
-    # tryCatch(
-    # {        
+    tryCatch(
+    {        
         res <- .scoreSubpathways(subpathways, filters, measures, parameters,
                                 miRNAinteractions)
         return(res)
-    # }, warning = function(war) 
-    # {
-    # }, error = function(e) 
-    #             { 
-    #                 closeAllConnections()
-    #                 message('\nParall error in refinement'); 
-    #             }
-    # , finally = { }
-    # )
+    }, warning = function(war) 
+    {
+    }, error = function(e) 
+                { 
+                    closeAllConnections()
+                    message('\nParall error in refinement'); 
+                }
+    , finally = { }
+    )
     
     return(res)
 }

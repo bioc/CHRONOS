@@ -69,7 +69,7 @@ miRNA expressions from CHRONOS/extdata/Input/<miRNAexprFile>.txt,
 (vii) visualizes the most the significant results.
 
 
-```{r eval=TRUE, echo=TRUE}
+```{r eval=TRUE, echo=TRUE, message=FALSE}
 out <- CHRONOSrun(  mRNAexp='mRNAexpressions.txt',
                     mRNAlabel='entrezgene',
                     miRNAexp='miRNAexpressions.txt',
