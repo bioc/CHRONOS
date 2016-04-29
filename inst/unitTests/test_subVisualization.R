@@ -10,9 +10,9 @@ test_subVisualization <- function()
     
     # Export the final subpathways to a xlsx file 
     linSubsVisualRun <- visualizeResults(summary=linSubsScored, export='.xlsx',
-                        from='entrezgene', to='hgnc_symbol')
+                        from='entrezgene', to='entrezgene')
     nliSubsVisualRun <- visualizeResults(summary=nliSubsScored, export='.xlsx',
-                        from='entrezgene', to='hgnc_symbol')
+                        from='entrezgene', to='entrezgene')
 
     # Visualize a subpathway
     linSubsmiRNAsRun <- subpathwayMiRNAs(summary=linSubsScored, subIdx=2, 
