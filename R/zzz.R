@@ -166,7 +166,7 @@ cache <- new.env()
     # Copy demo files from package directory to user directort
     file.copy(  from=system.file('extdata', package='CHRONOS'), 
                 to=file.path(chronosDir), 
-                overwrite = TRUE, recursive = TRUE, copy.mode = TRUE)
+                overwrite = FALSE, recursive = TRUE, copy.mode = TRUE)
 
     return(dirs)
 }
