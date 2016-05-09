@@ -40,7 +40,10 @@ CHRONOSrun <- function(mRNAexp, mRNAlabel, miRNAexp, pathType, subType,
                             miRNAinteractions=miRNAinteractions)
         if ( '.xlsx' %in% export )
         {
-            visualizeResults( summary=linSubsScored, export=export ) 
+            to <- if (org == 'hsa') 'hgnc_symbol' else mRNAlabel
+            to <- if (org == 'mmu') 'mgi_symbol' else to
+            visualizeResults( summary=linSubsScored, export=export,
+                            from=mRNAlabel, to=to ) 
         }
     }
     if ( 'Non-Linear' %in% subType || 'All' %in% subType )
@@ -54,7 +57,10 @@ CHRONOSrun <- function(mRNAexp, mRNAlabel, miRNAexp, pathType, subType,
                             miRNAinteractions=miRNAinteractions)
         if ( '.xlsx' %in% export )
         {
-            visualizeResults( summary=nliSubsScored, export=export )
+            to <- if (org == 'hsa') 'hgnc_symbol' else mRNAlabel
+            to <- if (org == 'mmu') 'mgi_symbol' else to
+            visualizeResults( summary=nliSubsScored, export=export,
+                            from=mRNAlabel, to=to )
         }
         
     }

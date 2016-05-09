@@ -19,11 +19,11 @@ vignette: >
 ---
 
 # Table of Contents
-1. [Introduction](#Introduction)
+1. [Package Setup](#Package Setup)
 2. [User Input](#User Input)
-3. [CHRONOS Execution](#CHRONOS Execution)
+3. [Default Run](#Default Run)
 
-## Introduction
+## Package Setup
 CHRONOS (time-vaRying enriCHment integrOmics Subpathway aNalysis tOol) is an 
 R package built to extract regulatory subpathways along with their miRNA 
 regulators at each time point based on KEGG pathway maps and user-defined 
@@ -34,9 +34,15 @@ CHRONOS can assist significantly in complex disease analysis by enabling the
 experimentalists to shift from the dynamic to the more realistic time-varying 
 view of the involved perturbed mechanisms.
 
+Before loading the package, please specify a user-accessible home directory. 
+The default directories for each architecture are as follows:
+
 ```{r eval=TRUE, echo=TRUE}
-library('CHRONOS')
-load(system.file('extdata', 'Examples//data.RData', package='CHRONOS'))
+if (.Platform$OS.type == 'unix') 
+    { options('CHRONOS_CACHE'=file.path(path.expand("~"), '.CHRONOS') ) }
+if (.Platform$OS.type == 'windows') 
+    { options('CHRONOS_CACHE'=file.path(gsub("\\\\", "/",
+                            Sys.getenv("USERPROFILE")), "AppData/.CHRONOS")) }
 ```
 
 ## User Input
@@ -51,12 +57,13 @@ differences relative to an initial condition (control state) are computed.
 Multiple biological replicates should be summarized so that one sample per 
 time point is provided as input. An indicative example is:
 
-
 ```{r eval=TRUE, echo=TRUE}
+library('CHRONOS')
+load(system.file('extdata', 'Examples//data.RData', package='CHRONOS'))
 head(mRNAexpr)
 ```
 
-## CHRONOS Execution
+## Default Run
 
 Next we present a default run of CHRONOS, which 
 (i) imports mRNA from CHRONOS/extdata/Input/<mRNAexprFile>.txt and 
@@ -68,22 +75,20 @@ miRNA expressions from CHRONOS/extdata/Input/<miRNAexprFile>.txt,
 (vi) scores extracted subpathways in order to extract significant results,
 (vii) visualizes the most the significant results.
 
-
 ```{r eval=TRUE, echo=TRUE, message=FALSE}
-out <- CHRONOSrun(  mRNAexp='mRNAexpressions.txt',
+out <- CHRONOSrun(  mRNAexp=mRNAexpr,
                     mRNAlabel='entrezgene',
-                    miRNAexp='miRNAexpressions.txt',
+                    miRNAexp=miRNAexpr,
                     pathType=c('04915', '04917', '04930', '05031'),
                     org='hsa',
                     subType='All',
                     thresholds=c('subScore'=0.4, 'mirScore'=0.4),
-                    export='.xlsx',
-                    verbose=FALSE)
+                    miRNAinteractions=miRNAinteractions,
+                    export='.xlsx')
 ```
-
 ![Results](figures/results.png)
 
-## CHRONOS citation
+## Citation
 The CHRONOS software package itself can be cited as: 
 Vrahatis, A. G., Dimitrakopoulou, K., Balomenos, P., Tsakalidis, A. K., & 
 Bezerianos, A. (2015). CHRONOS: A time-varying method for microRNA-mediated 

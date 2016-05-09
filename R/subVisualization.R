@@ -415,8 +415,8 @@ visualizeResults <- function(summary, export, expand, colors, from, to)
     genCols <- 0
     for (i in 1:nrow(df))
     {
-        mirs = unlist(strsplit(df[i,header['memberStart']], ' '))
-        if (length(mirs) > genCols) { genCols <- length(mirs) }
+        gens = unlist(strsplit(df[i,header['memberStart']], ' '))
+        if (length(gens) > genCols) { genCols <- length(gens) }
     }
     genCols <- (header['memberStop'] - header['memberStart'] + 1)*genCols
 
@@ -454,9 +454,16 @@ visualizeResults <- function(summary, export, expand, colors, from, to)
         }
     }
     # Remove empty columns
+    idx <- which(is.na(x))
+    if ( length(idx) > 0 ) { x[idx] <- ''  }
     idx <- table(which(x == '', arr.ind=TRUE)[, 'col'])
     idx <- as.numeric(names(idx)[which(unname(idx) == nrow(x))])
-    if ( length(idx) > 0 ) { x <- x[, -idx, drop=FALSE] }
+
+    if ( length(idx) > 0 ) 
+    { 
+        x <- x[, -idx, drop=FALSE]
+        genCols <- genCols - length(idx)
+    }
 
     from     <- colnames(df)[header['memberStart']]
     to       <- colnames(df)[header['memberStop']]
@@ -513,9 +520,15 @@ visualizeResults <- function(summary, export, expand, colors, from, to)
         cnames <- c(cnames, rep('Measures', 3)) 
     }
 
-
-    title  <- paste('miRNA Mediated Subpathway Members  (', from, ', ', 
-                to, ')', sep='')
+    if (from != to)
+    {
+        title <- paste0('miRNA Mediated Subpathway Members  (', from, ', ', 
+                    to, ')')
+    }
+    if (from == to)
+    {
+        title <- paste0('miRNA Mediated Subpathway Members  (', from, ')')
+    }
     cnames <- c(cnames, rep(title, genCols), rep('miRNAs', mirCols))
     df     <- rbind(cnames, df)
     wb     <- createWorkbook()
@@ -614,6 +627,7 @@ visualizeResults <- function(summary, export, expand, colors, from, to)
 
     saveWorkbook(wb, file, overwrite=TRUE)  
 }
+
 
 
 subpathwayKEGGmap <- function(subpathways, type, openInBrowser)
