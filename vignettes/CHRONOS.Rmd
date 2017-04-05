@@ -84,7 +84,7 @@ out <- CHRONOSrun(  mRNAexp=mRNAexpr,
                     subType='All',
                     thresholds=c('subScore'=0.4, 'mirScore'=0.4),
                     miRNAinteractions=miRNAinteractions,
-                    export='.xlsx')
+                    export='.txt')
 ```
 ![Results](figures/results.png)
 

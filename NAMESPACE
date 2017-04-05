@@ -14,6 +14,7 @@ importFrom( 'utils', 'tail', 'write.table', 'read.table', 'browseURL', 'data',
             'download.file')
 importFrom( 'grDevices', 'pdf', 'rainbow', 'dev.off')
 importFrom( 'graphics', 'par', 'title')
+importFrom( 'methods', 'as' )
 importFrom( 'biomaRt', 'listDatasets', 'useMart', 'getBM')
 import( 'openxlsx' )
 import( 'circlize' )
