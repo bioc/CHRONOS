@@ -39,12 +39,12 @@ Downloading is skipped for existing files. \cr
 \examples{
 
 # View all availiable hsa pathways
-pathways <- downloadKEGGPathwayList(org='hsa')
+\dontrun{pathways <- downloadKEGGPathwayList(org='hsa')}
 
 # Download pathway KGML files
 pathways <- c('04915', '04917', '04930', '05031')
 
-pathways <- downloadPathways(org='hsa', pathways=pathways)
+\dontrun{pathways <- downloadPathways(org='hsa', pathways=pathways)}
 
 }
 \references{
