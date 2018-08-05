@@ -86,7 +86,6 @@ downloadPathways  <- function(org, pathways)
     { 
         dir.create(xmlDir, recursive=TRUE)
     }
-
     xmlList <- paste(org, paths, sep='')
 
     # If any of the requested files have already been downloaded, skip them.
@@ -104,34 +103,47 @@ downloadPathways  <- function(org, pathways)
     }
 
     # Current http links for retrieving KEGG xml file
-    prefix <- 'http://www.kegg.jp/kegg-bin/download?entry=' 
-    suffix <- '&format=kgml'
-    # Create download links
-    links  <- paste0(prefix, downloadQueue, suffix)
-    # Create destination paths
-    dest   <- paste0(xmlDir, '//', downloadQueue, '.xml')
-    
-    # Split linear queue to batches of jobs
-    N      <- length(downloadQueue)
-    k      <- 4
-    jobs   <- split(1:N, cut(1:N, quantile(1:N, (0:k)/k), include.lowest=TRUE,
-                    labels=FALSE))
-    export <- c('getURIAsynchronous', 'foreach', '%do%')
-    cores  <- ifelse( N > detectCores()*10, 'default', 1 )
-    lens   <- .doSafeParallel(
-                funcName=downloadPathway,
-                export=export, combine='c',
-                N=k, cores=cores,
-                links, dest, jobs)
-
-    # Do some error-reporting
-    errIdx <- which( lens < 3 )
-    files  <- list('valid'=c(), 'invalid'=c())
-    files$valid <- downloadQueue
-    if ( length(errIdx) > 0 )
+    prefix <- 'http://rest.kegg.jp/get/' 
+    suffix <- '/kgml'
+    concurrentDownloads <- 10
+    while ( TRUE )
     {
-        files$valid   <- downloadQueue[-errIdx]
-        files$invalid <- downloadQueue[errIdx]
+        # Create download links
+        links  <- paste0(prefix, downloadQueue, suffix)
+        # Create destination paths
+        dest   <- paste0(xmlDir, '//', downloadQueue, '.xml')
+        # Split queue to batches of jobs
+        N      <- length(downloadQueue)
+        k      <- max(floor(N/concurrentDownloads), 1)
+        jobs <- list('1'=seq_len(N))
+        if (N > 1)
+        {
+            jobs <- split(
+                1:N, cut(1:N, quantile(1:N, (0:k)/k), 
+                include.lowest=TRUE, labels=FALSE))
+        }
+        export <- c('getURIAsynchronous', 'foreach', '%do%')
+        cores  <- ifelse( N > detectCores()*10, 'default', 1 )
+        lens   <- .doSafeParallel(
+                    funcName=downloadPathway,
+                    export=export, combine='c',
+                    N=k, cores=cores,
+                    links, dest, jobs)
+
+        # Do some error-reporting
+        errIdx <- which( lens < 3 )
+        files  <- list('valid'=c(), 'invalid'=c())
+        files$valid <- downloadQueue
+        if ( length(errIdx) > 0 )
+        {
+            files$valid   <- downloadQueue[-errIdx]
+            files$invalid <- downloadQueue[errIdx]
+        }
+
+        if ( length(files$invalid) == 0)
+            { break; }
+        if ( length(files$invalid) != 0)
+            { downloadQueue <- files$invalid }
     }
 
     return(paths)
@@ -153,8 +165,15 @@ downloadPathway   <- function(i, ...)
     lens <- vector(mode='numeric', length=length(raw))
     j <- 0; foreach (j = 1:length(raw)) %do% 
     {
-        write(raw[[j]], file = dest[idx][[j]])
-        lens[j] <- nchar(raw[[j]])
+        if( !grepl('Access forbidden', raw[[j]]) )
+        { 
+            write(raw[[j]], file = dest[idx][[j]]) 
+            lens[j] <- nchar(raw[[j]])
+        }
+        if( grepl('Access forbidden', raw[[j]]) )
+        { 
+            lens[j] <- 0
+        }
     }
     return(lens)
 }
