@@ -27,7 +27,7 @@ CHRONOSrun <- function(mRNAexp, mRNAlabel, miRNAexp, pathType, subType,
     paths   <- downloadPathways(org=org, pathways=pathType)
     
     # Create pathway graph
-    graphs  <- createPathwayGraphs(org=org)
+    graphs  <- createPathwayGraphs(org=org, pathways=paths)
 
     if ( 'Linear' %in% subType || 'All' %in% subType )
     {
