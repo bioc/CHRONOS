@@ -1,6 +1,6 @@
 importFrom( 'XML', 'xmlTreeParse', 'xmlRoot', 'xmlGetAttr', 'xmlName', 
             'xmlChildren')
-importFrom( 'RBGL', 'kCliques', 'brandes.betweenness.centrality')
+importFrom( 'RBGL', 'kCliques' )
 importFrom( 'RCurl', 'getURL', 'getURIAsynchronous', 'getBinaryURL', 
             'postForm', 'url.exists')
 importFrom( 'graph', 'ugraph', 'graphAM', 'ftM2adjM')
@@ -16,6 +16,7 @@ importFrom( 'grDevices', 'pdf', 'rainbow', 'dev.off')
 importFrom( 'graphics', 'par', 'title')
 importFrom( 'methods', 'as' )
 importFrom( 'biomaRt', 'listDatasets', 'useMart', 'getBM')
+importFrom( 'igraph', 'graph_from_adjacency_matrix', 'betweenness')
 import( 'openxlsx' )
 import( 'circlize' )
 export( 'CHRONOSrun' )
@@ -34,3 +35,6 @@ export( 'convertMiRNANomenclature' )
 export( 'subpathwayKEGGmap' )
 export( 'subpathwayMiRNAs' )
 export( 'getEdgeTypes' )
+
+
+

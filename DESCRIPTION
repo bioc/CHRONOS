@@ -1,5 +1,5 @@
 Package: CHRONOS
-Version: 1.10.0
+Version: 1.10.1
 Date: 2016-03-21
 Title: CHRONOS: A time-varying method for microRNA-mediated sub-pathway
         enrichment analysis
@@ -18,7 +18,7 @@ Repository: Bioconductor
 Date/Publication:
 NeedsCompilation: no
 LazyLoad: yes
-Imports: XML, RCurl, RBGL, parallel, foreach, doParallel, openxlsx,
+Imports: XML, RCurl, RBGL, parallel, foreach, doParallel, openxlsx, igraph,
         circlize, graph, stats, utils, grDevices, graphics, methods, biomaRt
 Suggests: RUnit, BiocGenerics, knitr
 VignetteBuilder: knitr

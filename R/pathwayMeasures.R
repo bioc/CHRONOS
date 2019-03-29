@@ -126,14 +126,18 @@ pathwayMeasures       <- function(graphs)
     rownames(adjMat) <- names(genes)
     colnames(adjMat) <- names(genes)
 
-    # Create a graph based on the adjacency matrix
-    g   <- ugraph(as(graphAM(adjMat, 'directed'),'graphNEL'))
+    # # Create a graph based on the adjacency matrix
+    # g   <- ugraph(as(graphAM(adjMat, 'directed'),'graphNEL'))
 
-    # Calculate the betweeness centrality for each gene
-    r   <- brandes.betweenness.centrality(g)
-    bc  <- t(r$betweenness.centrality.vertices)
-    res <- unname(as.vector(bc))
-    names(res) <- names(genes)
+    # # Calculate the betweeness centrality for each gene
+    # r   <- brandes.betweenness.centrality(g)
+    # bc  <- t(r$betweenness.centrality.vertices)
+    # res <- unname(as.vector(bc))
+    # names(res) <- names(genes)
+
+    # Brandes BC is broken in RBGL, TODO if addressed.
+    g  <- igraph::graph_from_adjacency_matrix(adjMat, mode="undirected")
+    res  <- igraph::betweenness(g, directed=FALSE, normalized=FALSE)
 
     cat('done\n')
 
