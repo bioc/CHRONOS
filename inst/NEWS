@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.11.1
+------------------------
+
+    - Replaced RBGL::brandes.betweenness.centrality() in pathwayMeasures() with igraph::betweenness() since the former is no longer available.
+
+
 CHANGES IN VERSION 1.9.2
 ------------------------
 
