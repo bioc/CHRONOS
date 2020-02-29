@@ -178,7 +178,7 @@ filterMatrix <- function( adjMats, org, userGenes )
 ##
 getSubpathwayGenes <- function(subpaths, type)
 {
-    if (class(subpaths) != 'matrix')
+    if ( !is(subpaths,'matrix') )
     {
         subpaths <- matrix(subpaths, nrow=1)
     }

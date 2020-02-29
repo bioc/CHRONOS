@@ -95,7 +95,7 @@ extractNonLinearSubpathways  <- function(graphs, pathways, a, b, k, filter,
                     adjMatsBin, lex, k, names(adjMatsBin), a, b)
 
     if ( !is.null(subs) )        { names(subs) <- names(adjMatsBin) }
-    if ( class(subs) != 'list' ) { subs <- list(subs) }
+    if ( !is(subs,'list') ) { subs <- list(subs) }
 
     
     # Ensure that all subpaths have the same number of columns

@@ -277,7 +277,7 @@ downloadMiRecords     <- function(org, pn, update, databases)
     # Annotate targets to entrez ids.
     annMap <- convertNomenclature(ids=targets, org=org, 
                         from='ensembl_gene_id', to='entrezgene')
-    if (class(annMap) != 'matrix') 
+    if ( !is(annMap, 'matrix') ) 
     { 
         return(NULL) 
     }
@@ -375,7 +375,7 @@ downloadMiRecords     <- function(org, pn, update, databases)
     # Annotate targets to entrez ids.
     annMap      <- convertNomenclature(ids=targets, org=org, 
                         from='refseq_mrna', to='entrezgene')
-    if (class(annMap) != 'matrix') 
+    if ( !is(annMap,'matrix') ) 
     { 
         return(NULL) 
     }

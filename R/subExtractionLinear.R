@@ -588,11 +588,11 @@ subpathExpansion   <- function(genes, compactSubpaths, nsubs, threshold,
         {
             m <- t(t(expand.grid(s[[i]])))
             m <- unname(split(m, 1:nrow(m)))
-            if (class(m) != 'matrix') 
+            if ( !is(m, 'matrix') ) 
             { 
                 m <- matrix(unlist(m), ncol=b, byrow=FALSE)
             }
-            if (class(m) == 'matrix')
+            if ( is(m, 'matrix') )
             { 
                 m <- matrix(unlist(m), ncol=b, byrow=TRUE) 
             }

@@ -51,7 +51,7 @@ unlistToMatrix <- function(L, mode='rbind')
     if (is.null(L))     { return(L) }
 
     # If input is already a matrix, return original data.
-    if (class(L) == 'matrix') { return(L) }
+    if ( is(L,'matrix') ) { return(L) }
 
     # Find what type of data the list holds
     type <- NULL
@@ -151,7 +151,7 @@ splitWork      <- function(N, k)
 
 matrixToList   <- function(subpaths, block, k)
 {
-    if (class(subpaths) == 'list')
+    if ( is(subpaths,'list') )
     {
         subpaths <- unlistToMatrix(subpaths)
     }
@@ -351,7 +351,7 @@ exportToFile    <- function(R, expfile, append=FALSE)
     max.print <- getOption('max.print')
     width     <- getOption('width')
     options(width = 10000)
-    if (class(R) == 'matrix')
+    if ( is(R,'matrix') )
     {
         options(max.print=nrow(R) * ncol(R))
         sink(file=expfile, append=append)
@@ -359,23 +359,23 @@ exportToFile    <- function(R, expfile, append=FALSE)
         print(noquote(R), row.names=TRUE, col.names=FALSE, q=FALSE)
         sink(NULL)
     }
-    if (class(R) == 'list')
+    if ( is(R,'list') )
     {
         options(max.print=length(unlist(R)))
         sink(file=expfile); 
         print(R); sink();
     }
-    if (class(R) == 'numeric')
+    if ( is(R,'numeric') )
     {
         x <- paste(names(R), '\t', R, collapse='\n')
         cat(x, file=expfile , sep = '\n')
     }
-    if (class(R) == 'integer')
+    if ( is(R,'integer') )
     {
         x <- paste(R, '\t', names(R), collapse='\n')
         cat(x, file=expfile , sep = '\n')
     }
-    if (class(R) == 'data.frame')
+    if ( is(R,'data.frame') )
     {
         options(max.print=nrow(R) * ncol(R))
         sink(file=expfile, append=append)
@@ -383,7 +383,7 @@ exportToFile    <- function(R, expfile, append=FALSE)
         sink()
         options(max.print=max.print)
     }
-    if (class(R) == 'character')
+    if ( is(R,'character') )
     {
         options(max.print=length(R))
         sink(file=expfile)
@@ -423,6 +423,7 @@ checkFile       <- function(dir, file, filepath='')
 {
     if ( missing(export) )    { export <- NULL }
     if ( cores == 'default' ) { cores <- detectCores(logical=FALSE) }
+
 
     if ( cores == 1 )
     {

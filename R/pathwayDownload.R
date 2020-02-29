@@ -55,11 +55,11 @@ downloadPathways  <- function(org, pathways)
         if (!'Metabolic' %in% pathways && !'Non-Metabolic' %in% pathways 
                 && !'All' %in% pathways)
         {
-            if (class(pathways) == 'character')
+            if ( is(pathways, 'character') )
             {
                 paths <- pathways
             }
-            if (class(pathways) == 'numeric' || class(pathways) == 'integer')
+            if ( is(pathways,'numeric') || is(pathways,'integer') )
             {
                 paths <- as.vector(t(paths[pathways, 1, drop=FALSE]))
             }

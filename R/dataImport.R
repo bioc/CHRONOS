@@ -51,7 +51,7 @@ importExpressions      <- function( data, type, sep, org, mRNAnomenclature )
 importGeneExpressions  <- function( org, sep, file, mRNAnomenclature )
 {
     # File can either be a filepath in input directory or a matrix
-    if (class(file) == 'character')
+    if ( is(file, 'character') )
     {
         # If a different filename than the default has been supplied, 
         # replace it at the filepath
@@ -80,7 +80,7 @@ importGeneExpressions  <- function( org, sep, file, mRNAnomenclature )
 
             geneEx <- e[[ls(e)[1]]]
 
-            if (class(geneEx) != 'matrix') 
+            if ( !is(geneEx,'matrix') ) 
             { 
                 message('Please supply a matrix of gene expressions.')
                 message('File ', file, ' does not contain a matrix.\n') 
@@ -115,7 +115,7 @@ importGeneExpressions  <- function( org, sep, file, mRNAnomenclature )
         cache$dirs$geneExpressions <- file 
     }
 
-    if (class(file) == 'matrix')
+    if ( is(file,'matrix') )
     {
         geneEx  <- file
         dir     <- unlist(strsplit(cache$dirs$geneExpressions, '//'))
@@ -186,7 +186,7 @@ importGeneExpressions  <- function( org, sep, file, mRNAnomenclature )
 importMiRNAExpressions <- function(org, sep, file)
 {
     # File can either be a filepath in input directory or a matrix
-    if (class(file) == 'character')
+    if ( is(file,'character') )
     {
         # If a different filename than the default has been supplied, 
         # replace it at the filepath
@@ -215,7 +215,7 @@ importMiRNAExpressions <- function(org, sep, file)
 
             miEx <- e[[ls(e)[1]]]
 
-            if (class(miEx) != 'matrix') 
+            if ( !is(miEx, 'matrix') ) 
             { 
                 message('Please supply a matrix of miRNA expressions.')
                 message('File ', file, ' does not contain a matrix.\n') 
@@ -251,7 +251,7 @@ importMiRNAExpressions <- function(org, sep, file)
 
     }
 
-    if (class(file) == 'matrix')
+    if ( is(file,'matrix') )
     {
         miEx    <- file
         dir     <- unlist(strsplit(cache$dirs$mirnaExpressions, '//'))
