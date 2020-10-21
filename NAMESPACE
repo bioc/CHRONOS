@@ -18,6 +18,8 @@ importFrom( 'methods', 'as' )
 importFrom( 'biomaRt', 'listDatasets', 'useMart', 'getBM')
 importFrom( 'igraph', 'graph_from_adjacency_matrix', 'betweenness')
 importFrom( 'methods', 'is')
+importFrom( 'rJava',
+    '.jinit', '.jaddClassPath', '.jnew', '.jcall')
 import( 'openxlsx' )
 import( 'circlize' )
 export( 'CHRONOSrun' )
@@ -36,6 +38,4 @@ export( 'convertMiRNANomenclature' )
 export( 'subpathwayKEGGmap' )
 export( 'subpathwayMiRNAs' )
 export( 'getEdgeTypes' )
-
-
 

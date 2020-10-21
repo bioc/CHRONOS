@@ -12,19 +12,23 @@ public class LinearPaths implements Runnable
 	static String matFile;
 	static String parFile;
 	static String outFile;
+	static String logFile;
 
 	private static int[][] matrix;
 	private static int[][] validPairs;
 	private static ArrayList<ArrayList<Integer>> results;
+	static String[] queue;
 	
-	public static void getLinearPaths(String inputFile, String validPairsFile, String outFile, boolean writeToDisk, int a, int b, int threshold, int limit)
+	public static int getLinearPaths(String inputFile, String validPairsFile, String outFile, boolean writeToDisk, int a, int b, int threshold, int limit)
 	{
+		queue = new String[2];
+
 		// Read the adjacency matrix and thw valid source/destination pairs from file 
 		matrix     = FileIO.readMatrixFromFile(inputFile, ",", 0);
 
 		// Read valid source/destination pairs
 		validPairs = FileIO.readMatrixFromFile(validPairsFile, "	", 2);
-		if (validPairs == null) { return; }
+		if (validPairs == null) { return 0; }
 		int rows = validPairs.length;
 		int cols = validPairs[0].length;
 		int subpaths = 0;
@@ -66,11 +70,11 @@ public class LinearPaths implements Runnable
 		
 		if (writeToDisk) { FileIO.exportSubpaths(results, outFile); }
 		subpaths = subpaths + results.size();
-		System.out.println(outFile);
-		System.out.println(Integer.toString(subpaths));
+
+		return subpaths;
 	}
 
-	public static void main(String[] args) 
+	public static void main(String[] args)  throws Exception 
 	{
 	 	String s        = args[0];
 	 	String org      = args[1];
@@ -79,20 +83,38 @@ public class LinearPaths implements Runnable
 	 	matFile   = baseDir + "mat/" + org + "/" + s;
 	 	parFile   = baseDir + "par/" + org + "/" + s;
 	 	outFile   = baseDir + "out/" + org + "/" + s;
+	 	logFile   = baseDir + "log/" + org + "/" + s;
 	 	a         = Integer.parseInt(args[3]);
 	 	b         = Integer.parseInt(args[4]);
 	 	threshold = Integer.parseInt(args[5]);
 	 	limit     = Integer.parseInt(args[6]);
+	 	LinearPaths lp = new LinearPaths();
 
-	 	(new Thread(new LinearPaths())).start();
+	 	ExecutorService executor = Executors.newSingleThreadExecutor();
+	 	Callable<String> callable = new Callable<String>() {
+	 	    public String call() 
+	 	    {
+	 	    	try {
+	 	    	    lp.run();
+	 	    	} finally {
+	 	    	    String out = lp.queue[0] + "-" + lp.queue[1];
+	 	    	    return out;
+	 	    	}
+	 	    }
+	 	};
+	 	Future<String> future = executor.submit(callable);
+	 	String out = future.get();
+	 	executor.shutdown();
+	 	FileIO.export(out, logFile);
 	}
 
 	public void run() 
 	{
 		long startTime = System.nanoTime();
-		getLinearPaths(matFile, parFile, outFile, true, a, b, threshold, limit);
+		int n = getLinearPaths(matFile, parFile, outFile, true, a, b, threshold, limit);
 		long stopTime = System.nanoTime();
-		float t = TimeUnit.NANOSECONDS.toSeconds(stopTime - startTime);
-		System.out.println(t);
+		float t = (int)TimeUnit.NANOSECONDS.toSeconds(stopTime - startTime);
+		this.queue[0] = Integer.toString(n);
+		this.queue[1] = Float.toString(t);
 	}
 }

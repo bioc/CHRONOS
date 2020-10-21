@@ -73,5 +73,25 @@ public class FileIO
         {
             e.printStackTrace();
         }
-    }  
+    }
+    public static void export(String results, String filename)
+    {
+        try 
+        { 
+            File file = new File(filename);
+            
+            if (!file.exists()) { file.createNewFile(); }
+    
+            FileWriter fw     = new FileWriter(file.getAbsoluteFile(), true);
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            bw.write(results);
+            bw.newLine();
+            bw.close();
+        }
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
+    } 
 }

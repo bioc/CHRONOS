@@ -184,21 +184,18 @@ getLinearSubpath      <- function(i, ...)
         {
             pathToJar <- system.file('java//CHRONOS.jar', package='CHRONOS')
 
-            javaPath <- cache$dirs$javapath
-            cmd <- paste(javaPath, '-cp', pathToJar, '-Xmx640m LinearPaths')
             baseDir <- paste(gsub('//','/',cache$dirs$int),'/', sep='')
-            cmd <- paste(cmd, lPairs$valid, org, baseDir, a, b, 
-                                threshold, limit)
-            res <- system(cmd, intern=TRUE, ignore.stderr=FALSE)
-
-            if (length(res) > 0)
-            {
-                res[1] <- gsub('.txt', '', 
-                                tail(unlist(strsplit(res[[1]], '/')), n=1))
-            }else
-            {
-                res <- c(gsub('.txt', '', pathName), -1, -1)
-            }
+            args <- c(lPairs$valid, org,  baseDir, a, b, threshold, limit)
+            .jinit(); 
+            .jaddClassPath(pathToJar); 
+            obj <- .jnew("LinearPaths")
+            .jcall(obj, returnSig="V", method="main", args)
+            
+            logFile <- file.path(baseDir, 'log', org, lPairs$valid)
+            logFile <- paste(gsub('//','/',logFile),'/', sep='')
+            logFile <- substr(logFile, 1, nchar(logFile)-1)
+            res <- unlist(strsplit(readLines(logFile)[[1]], '-'))
+            res <- c(lPairs$valid, as.numeric(res[1]), as.numeric(res[2]))
         }
 
         if (res[2] != '0') { break() }

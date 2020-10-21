@@ -129,8 +129,11 @@ cache <- new.env()
     idsDir  <- paste(intDir, '//ids', sep='') #
     parDir  <- paste(intDir, '//par', sep='') #
     subDir  <- paste(intDir, '//out', sep='') #
+    logDir  <- paste(intDir, '//log', sep='') #
+
     jDir    <- paste(chronosDir, '//java', sep='')
-    tmpDirs <- list(mat=matDir,ids=idsDir,par=parDir, sub=subDir)
+    tmpDirs <- list(
+        mat=matDir,ids=idsDir, par=parDir, sub=subDir, log=logDir)
     dirs    <- c(dirs, list(int=intDir, tmp=tmpDirs,java=jDir))
 
     #
@@ -158,9 +161,6 @@ cache <- new.env()
     msg3    <- sapply(list(vnlDir, vlnDir), function(x) 
         { dir.create(x, showWarnings=FALSE, recursive=TRUE)} )
 
-    # Find full path of java executable
-    dirs$javapath <- shQuote(.Sys.which2('java'))
-
     cache$dirs <- dirs
 
     # Copy demo files from package directory to user directort
@@ -176,6 +176,7 @@ cache <- new.env()
     #
     # Create subdirectories for specific organism inside each parent folder
     #
+    d0 <- paste(cache$dirs$tmp$log, org, sep='//') 
     d1 <- paste(cache$dirs$tmp$mat, org, sep='//') 
     d2 <- paste(cache$dirs$tmp$ids, org, sep='//') 
     d3 <- paste(cache$dirs$tmp$par, org, sep='//') 
@@ -185,7 +186,7 @@ cache <- new.env()
     d7 <- paste(cache$dirs$slnr, org, sep='//')
     d8 <- paste(cache$dirs$snlr, org, sep='//')
 
-    mapply(dir.create, list(d1, d2, d3, d4, d5, d6, d7, d8), 
+    mapply(dir.create, list(d0, d1, d2, d3, d4, d5, d6, d7, d8), 
             showWarnings=FALSE, rec=TRUE)
 }
 
