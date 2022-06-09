@@ -2,7 +2,7 @@
 
 downloadKEGGPathwayList <- function(org)
 {
-    link <- 'http://rest.kegg.jp/list/pathway/'
+    link <- 'https://rest.kegg.jp/list/pathway/'
     if (!missing(org))
     {
         link <- paste0(link, org, '/', org, '.txt')
